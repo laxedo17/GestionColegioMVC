@@ -15,15 +15,20 @@ namespace GestionColegioMVC.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "A paxina de descripcion da aplicacion.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Contacto()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "As nosas formas de contacto.";
 
+            return View();
+        }
+
+        public ActionResult VistaTesteo()
+        {
             return View();
         }
     }

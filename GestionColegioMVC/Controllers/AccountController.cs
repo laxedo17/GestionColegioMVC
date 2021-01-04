@@ -17,9 +17,11 @@ namespace GestionColegioMVC.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext contexto;//creamos un campo para o contexto da BD
 
         public AccountController()
         {
+            contexto = new ApplicationDbContext();//inicializamos a nova variable do contexto da BD
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
@@ -129,7 +131,7 @@ namespace GestionColegioMVC.Controllers
                     return View("Lockout");
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Codigo non valido.");
                     return View(model);
             }
         }
@@ -139,6 +141,9 @@ namespace GestionColegioMVC.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.Roles = new SelectList(contexto.Roles.Where(q=>!q.Name.Contains("Admin")).ToList(), "Nombre", "Nombre");//creamos unha combobox para agregar novos usuarios. Isto e mala practica no caso dos admins, que deberiamos crealos aparte, xa que isto permite a un usuario elexir o seu propio rol e ser admin, pero por simplificar
+            //Para evitar iso esta engadida a condicion Where(q=>!q.Name.Contains("Admin"), ou sexa que so apareceran para os usuarios os roles que non sexan Admin
+            //O nome da combobox sera Nome e no interior tera por defecto a palabra Nome
             return View();
         }
 
@@ -151,20 +156,24 @@ namespace GestionColegioMVC.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.NomeUsuario, Email = model.Email };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    //await this.UserManager.AddToRoleAsync(user.Id, model.RolUsuario);//facemos a asociacion de usuario e o seu rol
+
+
                     return RedirectToAction("Index", "Home");
                 }
+                ViewBag.Roles = new SelectList(contexto.Roles.Where(q => !q.Name.Contains("Admin")).ToList(), "Nombre", "Nombre");//se hai un error, o usuario volve a ver a lista de posibles roles en vez de ter unha combobox vacia sen saber que facer
                 AddErrors(result);
             }
 

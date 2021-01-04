@@ -1,0 +1,57 @@
+﻿@model GestionColegioMVC.Models.Matricula
+
+@{
+    ViewBag.Title = "Eliminar matricula";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Eliminar matricula</h2>
+
+<h3>Estas seguro de que queres borrar esta entrada da base de datos?</h3>
+<div>
+    <h4>Matricula</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nota)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nota)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Curso.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Curso.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estudiante.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estudiante.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Profe.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profe.Nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-default" /> |
+            @Html.ActionLink("Volver a lista", "Index")
+        </div>
+    }
+</div>

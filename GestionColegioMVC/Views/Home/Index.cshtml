@@ -1,31 +1,65 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Web principal";
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>IES de TEIS</h1>
+    <p class="lead">O IES de Teis... Esta maxestuosa institucion e un instituto no que podes alcanzar grandes metas para crear excelentes programas e sitios web aprendendo a utilizar HTML, CSS, e outras linguaxes de programacion. Matriculate. Esperamoste cos brazos abertos e as personas semientornadas</p>
+    <p><a href="http://www.edu.xunta.gal/centros/iesteis/" class="btn btn-primary btn-lg">Aprende mais &raquo;</a></p>
+</div>
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+    <!-- Indicatores do carousel -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+    </ol>
+
+    <!-- Wrapper para imaxes estilo diapositiva -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item active">
+            <img src="~/Content/Imaxes/diapositiva1.jpg" alt="Aqui aprendemos">
+            <div class="carousel-caption">
+                <span>Aqui aprendemos!</span>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/Content/Imaxes/diapositiva2.png" alt="Nunca pares de aprender">
+            <div class="carousel-caption">
+                <span>Nunca pares de aprender</span>
+            </div>
+        </div>
+        <div class="item">
+            <img src="~/Content/Imaxes/diapositiva3.jpg" alt="Ganamos tod@s">
+            <div class="carousel-caption">
+                <span>Ganamos tod@s</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Controles do carousel -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
 </div>
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-6">
+        <h2>Cursos</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            Cursos ós que podes apuntarte e a nosa oferta educativa, basada en crear o millor contido, sitios dinamicos, con  control absoluto para unha matriculacion axil e disfrutable.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <p>@Html.ActionLink("Mais informacion","Index", "Cursos", new {@class="btn btn-primary"})</p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+    <div class="col-md-6">
+        <h2>Estudiantes</h2>
+        <p>Obten a millor educacion queridx estudiante. Aqui podes ver quenes estaran contigo nesta aventura do saber na nosa santa institucion</p>
+        <p>@Html.ActionLink("Todxs xs estudiantes", "Index", "Estudiantes", new {@class="btn btn-info"})</p>
     </div>
 </div>

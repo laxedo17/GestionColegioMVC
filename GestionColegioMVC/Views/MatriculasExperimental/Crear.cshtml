@@ -1,0 +1,175 @@
+﻿@model GestionColegioMVC.Models.Matricula
+
+@{
+    ViewBag.Title = "Crear";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Aqui usaremos un funcion de autocomplete de jqueryui basada en Ajax para k busque detalles de estudiantes na base de datos e facilitar o autocompletado-->
+<script>
+    $(function () {
+
+        function CargarMatriculas(idc) {
+            $.ajax({
+            url: '@Url.Action("_matriculasPartial", "Matriculas")',
+            dataType: 'html',
+            contentType: 'application/html; charset=utf-8',
+            type: 'GET',
+            data: {
+                idCurso: idc
+            },
+            success: function (data) { //poblamos o div identificado como data con esta funcion
+                $('#data').fadeOut().html(data).fadeIn; //crea efectos animados que quedan ben
+            }
+        });
+        }
+
+        var idc = $('#IdCurso').val(); //obten o valor seleccionado actualmente na vista parcial
+        CargarMatriculas(idc);
+
+         $('#IdCurso').change(function () {
+        var idc = $('#IdCurso').val();
+             CargarMatriculas(idc);
+             $("#failed").fadeOut('fast');
+             $("#success").fadeOut('fast');
+    });
+
+        $("#Estudiante_Nombre").autocomplete({
+            source: function (request, response) {
+                $.ajax({
+                    url: "/Matriculas/GetEstudiantes",
+                    dataType: "json",
+                    type: "POST", //indicamos que queremos facer un post e non un get
+                    data: {
+                        term: request.term
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        response($.map(data, function (item) {
+                            return { label: item.Nombre, value: item.Nombre, id: item.Id }; //map mapea os elementos que lle enviamos en forma de array na funcion GetEstudiantes, e usa esa lista para buscar o nome e Id
+                        }))
+                    }
+                });
+            },
+            minLength: 2,
+            select: function (event, query) {
+                console.log(query);
+                $("IdEstudiante").val(query.item.id);//isto cambia a Id de Estudiante en tempo real para que se actualize cada vez que cambiamos de estudiante na lista desplegable, senon na consola do navegador non vemos o cambio en tempo real
+            }
+        });
+    });
+
+    function Added(res) {
+        if (res.IsSuccess) {
+            $(function () {
+                $("#failed").fadeOut('fast');
+                $("#success").fadeIn('fast');
+                //$('#success').append(res.Message); Pode substituir o div que fixemos na paxina
+                var idc = $('#IdCurso').val();
+                 $.ajax({
+                url: '@Url.Action("_matriculasPartial", "Matriculas")',
+                dataType: 'html',
+                contentType: 'application/html; charset=utf-8',
+                type: 'GET',
+                data: {
+                    idCurso: idc
+                },
+                success: function (data) { //poblamos o div identificado como data con esta funcion
+                    $('#data').fadeOut().html(data).fadeIn; //crea efectos animados que quedan ben
+                }
+            });
+            })
+        }
+        else {
+            Failed(res);
+        }
+    }
+
+    function Failed(res) {
+        if (!res.IsSuccess) {
+            $(function () {
+               $("#failed").fadeIn('fast');
+               $("#success").fadeOut('fast');
+            })
+        }
+    }
+
+    function Failure() {
+        $(function () {
+            $("#failed").fadeIn('fast');
+        })
+    }
+
+</script>
+
+<h2>Matricular estudiante</h2>
+
+<!--Aqui usaremos Ajax para non salir da paxina cada vez que agreguemos estudiantes a cursos na matricula-->
+@using (Ajax.BeginForm("AgregarEstudiante", "Matriculas", new AjaxOptions
+{
+    HttpMethod = "POST",
+    OnSuccess = "Added",
+    OnFailure = "Failure"
+}))
+{
+    @Html.AntiForgeryToken()
+
+<div class="form-horizontal">
+    <h4>Matricula</h4>
+    <hr />
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <!--Nota e profesores non e conveniente telos aqui, pero si o curso e o estudiante ou estudiantes asignadxs a esa clase-->
+    @*<div id="failed" class="alert alert-danger" style="display: none;">
+            Houbo un erro engadindo o estudiante oa curso.
+        </div>
+        <div id="success" class="alert alert-success" style="display: none;">
+            Estudiante engadido con exito.
+        </div>
+    *@
+    <div class="form-group">
+        <label for="IdCurso" class="control-label col-md-2">Curso</label>
+        @Html.LabelFor(model => model.IdCurso, "IdCurso", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("IdCurso", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IdCurso, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="IdCurso" class="control-label col-md-2">Curso</label>
+        @Html.LabelFor(model => model.IdCurso, "IdCurso", htmlAttributes: new { @class = "control-label col-md-2" })
+        <div class="col-md-10">
+            @Html.DropDownList("IdCurso", null, htmlAttributes: new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.IdCurso, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label for="Estudiante_Nombre" class="control-label col-md-2">Nome estudiante</label>
+        <div class="col-md-10">
+            <!--Orixinalmente aqui habia un codigo Html.DropDownList("IdEstudiante", null, htmlAttributes: new { arroba_class = "form-control" }) pero quitamolo para colocar un Textbox e un campo oculto que xenerara o script jquery de arriba -->
+            @Html.EditorFor(model => model.Estudiante.Nombre, new { htmlAttributes = new { @class = "form-control" } }) <!--tamen poderiamos usar TextBoxFor-->
+            @Html.HiddenFor(model => model.IdEstudiante) <!--A xente na web non ten porque ver a Id de Estudiante, non teria sentido, por iso a escondemos-->
+            @Html.ValidationMessageFor(model => model.IdEstudiante, "", new { @class = "text-danger" })
+        </div> <!--As dropdown lists son porque se trata de relacions de 1 a moitos co cal podemos seleccionar vari@s estudiantes e demais-->
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Matricular estudiante" class="btn btn-success btn-block" />
+        </div>
+    </div>
+</div>
+}
+
+<hr />
+
+<!--Vista parcial, ou sexa, unha vista dentro dunha vista-->
+<div id="data">
+    @*@Html.Action("_matriculasPartial", "Matriculas")*@
+</div>
+
+<div>
+    @Html.ActionLink("Volver a lista", "Index")
+</div>

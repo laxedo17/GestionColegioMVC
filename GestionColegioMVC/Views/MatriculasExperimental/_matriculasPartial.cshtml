@@ -1,0 +1,45 @@
+﻿@model IEnumerable<GestionColegioMVC.Models.Matricula>
+
+@if (Model.Count() < 1)
+{
+    <h1 class="text-center text-info">NON HAI MATRICULAS NESTE CURSO</h1>
+}
+else
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Nota)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Curso.Titulo)
+            </th>
+            <th>
+                Nome de estudiante
+            </th>
+            <th>Accion</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Nota)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Curso.Titulo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Estudiante.Nombre) @Html.DisplayFor(modelItem => item.Estudiante.SegundoNombre) @Html.DisplayFor(modelItem => item.Estudiante.Apellido)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Profe.Nombre)
+                </td>
+                <td>
+                    @Html.ActionLink("Eliminar", "Eliminar", new { id = item.IdMatricula })
+                </td>
+            </tr>
+        }
+
+    </table>
+}

@@ -28,14 +28,14 @@ namespace GestionColegioMVC.Models
     public class SetPasswordViewModel
     {
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "O {0} de ter como minimo {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Novo password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Confirma novo password")]
+        [Compare("NewPassword", ErrorMessage = "O novo password e o password de confirmacion non coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -43,18 +43,18 @@ namespace GestionColegioMVC.Models
     {
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "Current password")]
+        [Display(Name = "Password actual")]
         public string OldPassword { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "O {0} debe ter minimo {2} caracteres.", MinimumLength = 6)]
         [DataType(DataType.Password)]
-        [Display(Name = "New password")]
+        [Display(Name = "Novo password")]
         public string NewPassword { get; set; }
 
         [DataType(DataType.Password)]
-        [Display(Name = "Confirm new password")]
-        [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
+        [Display(Name = "Confirma novo password")]
+        [Compare("NewPassword", ErrorMessage = "O novo password e o password de confirmacion non coinciden.")]
         public string ConfirmPassword { get; set; }
     }
 
@@ -62,19 +62,19 @@ namespace GestionColegioMVC.Models
     {
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Numero de telefono")]
         public string Number { get; set; }
     }
 
     public class VerifyPhoneNumberViewModel
     {
         [Required]
-        [Display(Name = "Code")]
+        [Display(Name = "Codigo")]
         public string Code { get; set; }
 
         [Required]
         [Phone]
-        [Display(Name = "Phone Number")]
+        [Display(Name = "Numero de telefono")]
         public string PhoneNumber { get; set; }
     }
 

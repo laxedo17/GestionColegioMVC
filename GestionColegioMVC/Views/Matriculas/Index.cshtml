@@ -1,0 +1,55 @@
+﻿@model IEnumerable<GestionColegioMVC.Models.Matricula>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>MATRICULATE NO NOSO INSTITUTO</h2>
+
+<p>
+    @Html.ActionLink("Matricularse", "Crear")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Nota)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Curso.Titulo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estudiante.Apellido)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Profe.Nombre)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Nota)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Curso.Titulo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Estudiante.Nombre)
+            @Html.DisplayFor(modelItem => item.Estudiante.SegundoNombre)
+            @Html.DisplayFor(modelItem => item.Estudiante.Apellido)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Profe.Nombre)
+            @Html.DisplayFor(modelItem => item.Profe.Apellidos)
+        </td>
+        <td>
+            @Html.ActionLink("Editar", "Editar", new { id=item.IdMatricula }) |
+            @Html.ActionLink("Detalles", "Detalles", new { id=item.IdMatricula }) |
+            @Html.ActionLink("Eliminar", "Eliminar", new { id=item.IdMatricula })
+        </td>
+    </tr>
+}
+
+</table>

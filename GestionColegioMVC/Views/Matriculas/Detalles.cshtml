@@ -1,0 +1,54 @@
+﻿@model GestionColegioMVC.Models.Matricula
+
+@{
+    ViewBag.Title = "Informacion de Matricula";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Matricula</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Nota)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Nota)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Curso.Titulo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Curso.Titulo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Estudiante.Apellido)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Estudiante.Nombre)
+            @Html.DisplayFor(model => model.Estudiante.SegundoNombre)
+            @Html.DisplayFor(model => model.Estudiante.Apellido)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Profe.Nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profe.Nombre)
+            @Html.DisplayFor(model => model.Profe.Apellidos)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Editar", "Editar", new { id = Model.IdMatricula }) |
+    @Html.ActionLink("Volver a lista", "Index")
+</p>
