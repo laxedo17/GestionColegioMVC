@@ -47,14 +47,16 @@ namespace GestionColegioMVC.Controllers
         }
 
         // POST: Matriculas/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
+        // Para protexer de ataques de overposting, activa as propiedades especificas coas que queres asociar os elementos da base de datos,
+        // mais detalles aqui https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Crear([Bind(Include = "IdMatricula,Nota,IdCurso,IdEstudiante,IdProfe")] Matricula matricula)
         {
-            var estaMatriculado = db.Matriculas.Any(q => q.IdCurso == matricula.IdCurso && q.IdEstudiante == matricula.IdEstudiante); //se a IdCurso e a IdEstudiante na matricula coinciden cun valor que xa hai, isto e verdadeiro, co cal debemos advertir que ese/a estudiante xa esta matriculado
-            if (ModelState.IsValid && !estaMatriculado)
+            var estaMatriculado = db.Matriculas.Any(q => q.IdCurso == matricula.IdCurso && q.IdEstudiante == matricula.IdEstudiante); //se a IdCurso e a IdEstudiante na matricula coinciden 
+            //cun valor que xa hai, isto e verdadeiro, 
+            //co cal debemos advertir que ese/a estudiante xa esta matriculado/a
+            if (ModelState.IsValid && !estaMatriculado) //tamen vale estaMatriculado == false
             {
                 db.Matriculas.Add(matricula);
                 await db.SaveChangesAsync();
